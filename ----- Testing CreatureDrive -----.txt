@@ -1,0 +1,76 @@
+Is any creature alive? true
+Total mass of all creatures: 18.0
+
+----------Test1----------
+Test A: Initial Values of PlantEater
+PlantEater size: 1069.38
+PlantEater growth rate: 3.0
+PlantEater food need: 10.69
+PlantEater is alive: true
+
+Test B: Testing chew method
+After chewing the first plant:
+Plant size: 340.74
+PlantEater food eaten: 0.83
+
+Test C: Simulating one day for PlantEater
+After one day of simulation:
+PlantEater size: 0.0
+PlantEater age: 0
+PlantEater food need: 0.0
+PlantEater food eaten: 10.69
+Is PlantEater still alive? false
+
+Test D: Checking if any plants are alive
+Is any plant alive? true
+
+Test E: Total mass of all plants and PlantEater
+Total mass of all plants and PlantEater: 599695.04
+
+----------Test2----------
+Day 0: 1077 PlantEaters, 20 MeatEaters, 2000 Plants, Total mass: 1718132.16
+Day 100: 940 PlantEaters, 1 MeatEaters, 2003 Plants, Total mass: 2553687.21
+Day 200: 905 PlantEaters, 2 MeatEaters, 2009 Plants, Total mass: 3524412.65
+Day 300: 847 PlantEaters, 2 MeatEaters, 2012 Plants, Total mass: 4472297.59
+Day 400: 755 PlantEaters, 2 MeatEaters, 2016 Plants, Total mass: 5388091.95
+Day 500: 633 PlantEaters, 0 MeatEaters, 2022 Plants, Total mass: 6274222.23
+Day 600: 595 PlantEaters, 1 MeatEaters, 2026 Plants, Total mass: 7252179.31
+Day 700: 515 PlantEaters, 2 MeatEaters, 2031 Plants, Total mass: 8190881.02
+Day 800: 421 PlantEaters, 2 MeatEaters, 2035 Plants, Total mass: 9115551.28
+Day 900: 323 PlantEaters, 3 MeatEaters, 2041 Plants, Total mass: 3091847.46
+
+Simulation ended.
+
+Total days simulated: 1000
+Final number of PlantEaters: 282
+Final number of MeatEaters: 2
+Final number of Plants: 2050
+Total mass of PlantEaters: 283764.38 grams
+Total mass of MeatEaters: 2910.99 grams
+Total mass of Plants: 109184.40 grams
+
+----------TestMeatEaters----------
+Test A: Initial Values of MeatEater
+MeatEater size: 2255.18
+MeatEater growth rate: 2.0
+MeatEater food need: 33.83
+MeatEater is alive: true
+
+Test B: Testing hunt method
+PlantEater size before hunt: 1085.21
+After hunting the first PlantEater:
+MeatEater size: 2255.18
+PlantEater size after hunt: 0.0
+
+Test C: Simulating one day for MeatEater
+After one day of simulation:
+MeatEater size: 2257.18
+MeatEater age: 1
+MeatEater food need: 112.86
+Is MeatEater still alive? true
+
+Test D: Checking if any PlantEaters are alive
+Is any PlantEater alive? true
+
+Test E: Total mass of all PlantEaters and MeatEater
+Total mass of all PlantEaters and MeatEater: 1098900.28
