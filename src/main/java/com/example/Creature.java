@@ -18,11 +18,11 @@ public abstract class Creature {
 
     // Getters
     public double getSize() {
-        return size;
+        return Math.round(size * 100.0) / 100.0; // Round to 2 decimal places
     }
 
     public double getGrowthRate() {
-        return growthRate;
+        return Math.round(growthRate * 100.0) / 100.0; // Round to 2 decimal places
     }
 
     public boolean isAlive() {

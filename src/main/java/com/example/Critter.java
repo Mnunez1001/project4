@@ -14,7 +14,7 @@ public abstract class Critter extends Creature {
 
     // Getters and Setters
     public double getFoodNeed() {
-        return foodNeed;
+        return Math.round(foodNeed * 100.0) / 100.0;
     }
 
     public void setFoodNeed(double foodNeed) {
@@ -41,7 +41,7 @@ public abstract class Critter extends Creature {
 
     // Method to check food still needed
     public double stillNeed() {
-        return foodNeed - foodEaten;
+        return Math.round((foodNeed - foodEaten) * 100.0) / 100.0;
     }
 
 
