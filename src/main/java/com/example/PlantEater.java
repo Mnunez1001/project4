@@ -3,18 +3,40 @@ package com.example;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Represents a plant-eating creature in the ecosystem.
+ * A PlantEater consumes plants to sustain itself and grows over time.
+ * It extends the Critter abstract class.
+ * 
+ * @Author Miguel A. Nunez Palomares
+ * @Version 1.0
+ * @see java.util.List, java.util.Random
+ */
+
 public class PlantEater extends Critter {
 
-    // Attribute: List of plants it may chew on
+    /** List of plants available for consumption. */
     private List<Plant> plants;
 
-    // Constructor
+    /**
+     * Constructs a PlantEater with the specified size, growth rate, and a list of
+     * plants it can eat.
+     * 
+     * @param size       Initial size of the PlantEater.
+     * @param growthRate Rate at which the PlantEater grows daily.
+     * @param plants     List of plants available for consumption.
+     */
     public PlantEater(double size, double growthRate, List<Plant> plants) {
-        super(size, growthRate, size * 0.01); // Food need is 1% of size
+        super(size, growthRate, size * 0.01, 750); // Food need is 1% of size
         this.plants = plants;
     }
 
-    // Method for chewing on a plant
+    /**
+     * Allows the PlantEater to chew on a given plant.
+     * The amount chewed is randomly determined within certain constraints.
+     * 
+     * @param plant The plant to be chewed on.
+     */
     public void chew(Plant plant) {
         Random rand = new Random();
         double maxAmount = Math.min(Math.min(plant.getSize() / 2, stillNeed()), getFoodNeed() * 0.1);
@@ -32,7 +54,12 @@ public class PlantEater extends Critter {
         plant.chewedOn(amountToChew);
     }
 
-    // Override simulateDay
+    /**
+     * Simulates a day in the life of a PlantEater.
+     * The PlantEater selects a number of plants to chew on and consumes food
+     * accordingly.
+     * It then ages, grows, and updates its food need based on its new size.
+     */
     @Override
     public void simulateDay() {
         if (isAlive() && !plants.isEmpty()) { // Ensure there are plants to eat
@@ -60,18 +87,32 @@ public class PlantEater extends Critter {
             // Call the super class's simulateDay method
             super.simulateDay();
 
-            //update foodNeed as 1% of the new size
+            // update foodNeed as 1% of the new size
             setFoodNeed(getSize() * 0.01);
         }
     }
 
-   
+    /**
+     * Returns a string representation of the PlantEater, displaying its attributes.
+     * 
+     * @return A string representation of the PlantEater.
+     */
 
-    // toString method
     @Override
     public String toString() {
         return "PlantEater [size=" + getSize() + ", growthRate=" + getGrowthRate() + ", foodNeed=" + getFoodNeed()
                 + ", alive=" + isAlive() + ", age=" + getAge() + ", plants=" + plants.size() + "]";
+    }
+
+    /**
+     * Returns the probability of death for the PlantEater if it surpasses its
+     * lifespan.
+     * 
+     * @return A 15% probability (0.15) of death each day past its lifespan.
+     */
+    @Override
+    protected double getDeathProbability() {
+        return 0.15; // 15% chance of dying each day
     }
 
 }

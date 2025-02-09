@@ -41,8 +41,6 @@ public class DriverCreature {
         creatures.addAll(plants);
         creatures.addAll(plantEaters);
 
-
-
         // Test stillAlive method
         System.out.println("Is any creature alive? " + stillAlive(creatures));
 
@@ -65,7 +63,7 @@ public class DriverCreature {
         // food need
         double plantEaterSize = 900 + rand.nextDouble() * 200; // Random size between 900 and 1100 grams
         double plantEaterGrowthRate = 3; // Fixed growth rate of 3 grams/day
-        //double plantEaterFoodNeed = 50; // Fixed food need of 50 grams/day
+        // double plantEaterFoodNeed = 50; // Fixed food need of 50 grams/day
         PlantEater plantEater = new PlantEater(plantEaterSize, plantEaterGrowthRate, plants2);
 
         // Test A: Check initial values of the PlantEater
@@ -83,7 +81,8 @@ public class DriverCreature {
         plantEater.chew(plants2.get(0)); // Chew on the first plant
         System.out.println("After chewing the first plant:");
         System.out.println("Plant size: " + plants2.get(0).getSize());
-        System.out.println("PlantEater food eaten: " + String.format("%.2f", plantEater.getFoodNeed() - plantEater.stillNeed()));
+        System.out.println(
+                "PlantEater food eaten: " + String.format("%.2f", plantEater.getFoodNeed() - plantEater.stillNeed()));
         System.out.println();
 
         // Test C: Simulate one day of the PlantEater's life (growth, food consumption,
@@ -108,24 +107,14 @@ public class DriverCreature {
         double totalMass = totalMass(plants2) + plantEater.getSize();
         System.out.println("Total mass of all plants and PlantEater: " + totalMass);
 
-
-
-
-
-
-
-
-
-
-
         System.out.println("\n----------Test2----------");
 
-        // Step 1: Instantiate 300 PlantEater objects
+        // Step 1: Instantiate 1100 PlantEater objects
         ArrayList<PlantEater> plantEaters2 = new ArrayList<>();
-        for (int i = 0; i < 300; i++) {
+        for (int i = 0; i < 1100; i++) {
             double size = 1000 + (rand.nextDouble() * 200 - 100); // Random size between 900 and 1100 grams
             double growthRate = 3; // Fixed growth rate of 3 grams/day
-            //double foodNeed = 50; // Fixed food need of 50 grams/day
+            // double foodNeed = 50; // Fixed food need of 50 grams/day
             plantEaters2.add(new PlantEater(size, growthRate, new ArrayList<>()));
 
         }
@@ -138,9 +127,17 @@ public class DriverCreature {
             plants3.add(new Plant(size, growthRate));
         }
 
+        // Step 2.5: Instantiate 25 MeatEater objects
+        ArrayList<MeatEater> meatEatersL = new ArrayList<>();
+        for (int i = 0; i < 25; i++) {
+            double size = 1500 + (rand.nextDouble() * 300 - 150); // Random size between 1350 and 1650 grams
+            double growthRate = 2; // Fixed growth rate of 2 grams/day
+            meatEatersL.add(new MeatEater(size, growthRate, plantEaters2));
+        }
+
         // Step 3: Run the simulation for 1000 days (or until all PlantEaters are dead)
         int day = 0;
-        while (day < 1000 && !plantEaters2.isEmpty()) {
+        while (day < 1000 && (!plantEaters2.isEmpty() || !meatEatersL.isEmpty())) {
             // Simulate a day for all plants
             for (Plant plant : plants3) {
                 plant.simulateDay();
@@ -151,6 +148,11 @@ public class DriverCreature {
                 pe.simulateDay();
             }
 
+            // Simulate a day for all MeatEaters
+            for (MeatEater me : meatEatersL) {
+                me.simulateDay();
+            }
+
             // Step 4: Birth new cretures based on probabilities
             if (rand.nextDouble() < 0.05) { // 5% chance for a new plant
                 double size = 300 + (rand.nextDouble() * 100 - 50); // Random size between 250 and 350 grams
@@ -158,12 +160,18 @@ public class DriverCreature {
                 plants3.add(new Plant(size, growthRate));
             }
 
-            if (rand.nextDouble() < 0.30) { // 30% chance for a new plant eater
+            if (rand.nextDouble() < 0.39) { // 39% chance for a new plant eater
                 double size = 1000 + (rand.nextDouble() * 200 - 100); // Random size between 900 and 1100 grams
                 double growthRate = 3; // Fixed growth rate of 3 grams/day
-                //double foodNeed = 50; // Fixed food need of 50 grams/day
+                // double foodNeed = 50; // Fixed food need of 50 grams/day
                 plantEaters2.add(new PlantEater(size, growthRate, new ArrayList<>()));
 
+            }
+
+            if (rand.nextDouble() < 0.46) { // 46% chance for a new meat eater
+                double size = 1500 + (rand.nextDouble() * 300 - 150); // Random size between 1350 and 1650 grams
+                double growthRate = 2; // Fixed growth rate of 2 grams/day
+                meatEatersL.add(new MeatEater(size, growthRate, plantEaters2));
             }
 
             // Step 5: Remove dead PlantEaters
@@ -176,11 +184,21 @@ public class DriverCreature {
                 }
             }
 
+            // Step 5.5: Remove dead MeatEaters
+            int j = 0;
+            while (j < meatEatersL.size()) {
+                if (!meatEatersL.get(j).isAlive()) {
+                    meatEatersL.remove(j); // Remove dead MeatEater
+                } else {
+                    j++; // Move to the next MeatEater if the current one is still alive
+                }
+            }
+
             // Step 6: Pint daily statistics (every 100 days)
             if (day % 100 == 0) {
-                System.out.printf("Day %d: %d PlantEaters, %d Plants, Total mass: %.2f%n", day, plantEaters2.size(),
-                        plants3.size(), totalMass(plants3) + totalMass(plantEaters2));
-
+                System.out.printf("Day %d: %d PlantEaters, %d MeatEaters, %d Plants, Total mass: %.2f%n",
+                        day, plantEaters2.size(), meatEatersL.size(), plants3.size(),
+                        totalMass(plants3) + totalMass(plantEaters2) + totalMass(meatEatersL));
             }
 
             day++; // Increment the day counter
@@ -191,18 +209,16 @@ public class DriverCreature {
         System.out.println("\nSimulation ended.");
         System.out.printf("\nTotal days simulated: %d%n", day);
         System.out.printf("Final number of PlantEaters: %d%n", plantEaters2.size());
+        System.out.printf("Final number of MeatEaters: %d%n", meatEatersL.size());
         System.out.printf("Final number of Plants: %d%n", plants3.size());
         System.out.printf("Total mass of PlantEaters: %.2f grams%n", totalMass(plantEaters2));
+        System.out.printf("Total mass of MeatEaters: %.2f grams%n", totalMass(meatEatersL));
         System.out.printf("Total mass of Plants: %.2f grams%n", totalMass(plants3));
 
+        System.out.println("\n----------TestMeatEaters----------");
 
-
-
-
-
-        System.out.println("\n----------TestMeatEates----------");
-
-        // Create a list of 1000 PlantEaters objects with random sizes and fixed growth rate
+        // Create a list of 1000 PlantEaters objects with random sizes and fixed growth
+        // rate
         ArrayList<PlantEater> plantEaters3 = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
             double size = 1000 + rand.nextDouble() * 200; // Random size between 1000 and 1200 grams
@@ -210,7 +226,8 @@ public class DriverCreature {
             plantEaters3.add(new PlantEater(size, growthRate, plants2));
         }
 
-        // Instantiate one MeatEater object with random size, fixed growth rate, and prey list
+        // Instantiate one MeatEater object with random size, fixed growth rate, and
+        // prey list
         double meatEaterSize = 2000 + rand.nextDouble() * 500; // Random size between 2000 and 2500 grams
         double meatEaterGrowthRate = 2; // Fixed growth rate of 2 grams/day
         MeatEater meatEater = new MeatEater(meatEaterSize, meatEaterGrowthRate, plantEaters3);
@@ -227,10 +244,13 @@ public class DriverCreature {
         // MeatEater should hunt PlantEaters and eat them. Let's test hunting a few
         // PlantEaters.
         System.out.println("Test B: Testing hunt method");
+        System.out.println("PlantEater size before hunt: " + plantEaters3.get(0).getSize()); // Initial size of the
+                                                                                             // first PlantEater
         meatEater.hunt(plantEaters3.get(0)); // Hunt the first PlantEater
         System.out.println("After hunting the first PlantEater:");
         System.out.println("MeatEater size: " + meatEater.getSize());
-        System.out.println("PlantEater size: " + plantEaters3.get(0).getSize());
+        System.out.println("PlantEater size after hunt: " + plantEaters3.get(0).getSize()); // Size of the first
+                                                                                            // PlantEater after hunting
         System.out.println();
 
         // Test C: Simulate one day
@@ -251,31 +271,7 @@ public class DriverCreature {
         // Test E: Total mass of all PlantEaters and the MeatEater
         System.out.println("Test E: Total mass of all PlantEaters and MeatEater");
         double totalMass2 = totalMass(plantEaters3) + meatEater.getSize();
-        System.out.println("Total mass of all PlantEaters and MeatEater: " + totalMass2);
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        System.out.println("Total mass of all PlantEaters and MeatEater: " + String.format("%.2f", totalMass2));
 
     }
 }
