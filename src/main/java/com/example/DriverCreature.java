@@ -109,9 +109,9 @@ public class DriverCreature {
 
         System.out.println("\n----------Test2----------");
 
-        // Step 1: Instantiate 1100 PlantEater objects
+        // Step 1: Instantiate 1500 PlantEater objects
         ArrayList<PlantEater> plantEaters2 = new ArrayList<>();
-        for (int i = 0; i < 1100; i++) {
+        for (int i = 0; i < 1500; i++) {
             double size = 1000 + (rand.nextDouble() * 200 - 100); // Random size between 900 and 1100 grams
             double growthRate = 3; // Fixed growth rate of 3 grams/day
             // double foodNeed = 50; // Fixed food need of 50 grams/day
@@ -130,7 +130,7 @@ public class DriverCreature {
         // Step 2.5: Instantiate 25 MeatEater objects
         ArrayList<MeatEater> meatEatersL = new ArrayList<>();
         for (int i = 0; i < 25; i++) {
-            double size = 1500 + (rand.nextDouble() * 300 - 150); // Random size between 1350 and 1650 grams
+            double size = 1400 + (rand.nextDouble() * 300 - 150); // Random size between 1250 and 1550 grams
             double growthRate = 2; // Fixed growth rate of 2 grams/day
             meatEatersL.add(new MeatEater(size, growthRate, plantEaters2));
         }
@@ -160,7 +160,7 @@ public class DriverCreature {
                 plants3.add(new Plant(size, growthRate));
             }
 
-            if (rand.nextDouble() < 0.39) { // 39% chance for a new plant eater
+            if (rand.nextDouble() < 0.48) { // 48% chance for a new plant eater
                 double size = 1000 + (rand.nextDouble() * 200 - 100); // Random size between 900 and 1100 grams
                 double growthRate = 3; // Fixed growth rate of 3 grams/day
                 // double foodNeed = 50; // Fixed food need of 50 grams/day
@@ -168,8 +168,8 @@ public class DriverCreature {
 
             }
 
-            if (rand.nextDouble() < 0.46) { // 46% chance for a new meat eater
-                double size = 1500 + (rand.nextDouble() * 300 - 150); // Random size between 1350 and 1650 grams
+            if (rand.nextDouble() < 0.60) { // 60% chance for a new meat eater
+                double size = 1400 + (rand.nextDouble() * 300 - 150); // Random size between 1250 and 1550 grams
                 double growthRate = 2; // Fixed growth rate of 2 grams/day
                 meatEatersL.add(new MeatEater(size, growthRate, plantEaters2));
             }

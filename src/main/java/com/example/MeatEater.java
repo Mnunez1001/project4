@@ -29,7 +29,7 @@ public class MeatEater extends Critter {
      * @param preyList   List of PlantEaters available for hunting.
      */
     public MeatEater(double size, double growthRate, List<PlantEater> preyList) {
-        super(size, growthRate, size * 0.015, 600); // Food need is 1.5% of size
+        super(size, growthRate, size * 0.013, 600); // Food need is 1.5% of size
         this.preyList = preyList;
     }
 
